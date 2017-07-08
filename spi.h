@@ -14,13 +14,23 @@
 #define DDRB5 5
     
 #define DDR_SPI  DDRB
-#define DD_MOSI  DDRB3
-#define DD_SCK   DDRB5
+#define DD_SS    DDB2
+#define DD_MOSI  DDB3
+#define DD_SCK   DDB5
+
+#define SPI_MISO_PORT  PORTB
+#define SPI_MISO PORTB4
+
+/* Slave Select aktivieren */
+#define SELECT_SLAVE  PORTB &= ~(1 << 2)
+/* Slave Select deaktivieren */
+#define DESELECT_SLAVE PORTB |= (1 << 2)
 
 
-void initSPI_Master(void);
-void writeSPI_StatReg(uint8_t byte);
-void SPI_tradeByte(uint8_t byte);
+void    SPI_initMaster(void);
+void    SPI_writeStatReg(uint8_t byte);
+void    SPI_writeByte(uint8_t byte);
+uint8_t SPI_readByte(void);
 
 
 #endif   /*endif __SPI_H__ */

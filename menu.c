@@ -114,6 +114,9 @@ void EEPROMMenu(void){
     transmitString("========================\n");
     transmitString("Please choose an action:\n");
     transmitString("------------------------\n");
+    transmitString("  1. Read EEPROM Status \n");
+    transmitString("  2. Write 234\n");
+    transmitString("  3. Read Addr 0 = 234\n");
     transmitString("  0. Exit\n");
     transmitString("------------------------\n");
     transmitString("Your choice: ");
@@ -126,6 +129,27 @@ void EEPROMMenu(void){
       transmitString("0\n");
       leave = true;
       break;
+      
+    case('1'):
+      transmitString("1\n");
+      printBinaryByte(MC25LC256_readStatus());
+      transmitByte('\n');
+      break;
+
+    case('2'):
+      transmitString("2\n");
+      printBinaryByte(234);
+      MC25LC256_writeByte(0, 234);
+      transmitByte('\n');
+      break;
+
+    case('3'):
+      transmitString("3\n");
+      printBinaryByte(MC25LC256_readByte(0));
+      transmitByte('\n');
+      break;
+
+      
     default:
       transmitByte(choice);
       transmitString(" Choice not supported.\n");
@@ -198,21 +222,21 @@ void narrate_SPCR(void){
     transmitString(" => Data sample at trailing edge of SCK\n");
   }
   transmitString("Bit1 - SPR01:  SPI0 Clock Rate Select     => ");
-  if((SPCR & 0x03 == 0) && bit_is_set(SPSR, SPI2X))
+  if(((SPCR & 0x03) == 0) && bit_is_set(SPSR, SPI2X))
     transmitString("FOSC/2\n");
-  if((SPCR & 0x03 == 1) && bit_is_set(SPSR, SPI2X))
+  if(((SPCR & 0x03) == 1) && bit_is_set(SPSR, SPI2X))
     transmitString("FOSC/8\n");
-  if((SPCR & 0x03 == 2) && bit_is_set(SPSR, SPI2X))
+  if(((SPCR & 0x03) == 2) && bit_is_set(SPSR, SPI2X))
     transmitString("FOSC/32\n");
-  if((SPCR & 0x03 == 3) && bit_is_set(SPSR, SPI2X))
+  if(((SPCR & 0x03) == 3) && bit_is_set(SPSR, SPI2X))
     transmitString("FOSC/64\n");
-  if((SPCR & 0x03 == 0) && !(bit_is_set(SPSR, SPI2X)))
+  if(((SPCR & 0x03) == 0) && !(bit_is_set(SPSR, SPI2X)))
     transmitString("FOSC/4\n");
-  if((SPCR & 0x03 == 1) && !(bit_is_set(SPSR, SPI2X)))
+  if(((SPCR & 0x03) == 1) && !(bit_is_set(SPSR, SPI2X)))
     transmitString("FOSC/16\n");
-  if((SPCR & 0x03 == 2) && !(bit_is_set(SPSR, SPI2X)))
+  if(((SPCR & 0x03) == 2) && !(bit_is_set(SPSR, SPI2X)))
     transmitString("FOSC/64\n");
-  if((SPCR & 0x03 == 3) && (!bit_is_set(SPSR, SPI2X)))
+  if(((SPCR & 0x03) == 3) && (!bit_is_set(SPSR, SPI2X)))
     transmitString("FOSC/128\n");
 
   if(SPCR & 0x03 == 0) transmitString("HALLELUJA");

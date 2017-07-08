@@ -11,6 +11,7 @@
 #include <stdbool.h>
 #include <avr/io.h>
 #include "usart.h"
+#include "MC25LC256.h"
 
 
 void MainMenu(void);
