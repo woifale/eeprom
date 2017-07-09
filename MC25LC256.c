@@ -28,6 +28,13 @@ uint8_t MC25LC256_readStatus(void){
   
   /* Read received status */
   ret = SPI_readByte();
+
+  /* shift another round to get results*/
+  SELECT_SLAVE;
+  SPI_writeByte(0);
+  DESELECT_SLAVE;
+
+  ret = SPI_readByte();
   
   return(ret);
 
@@ -58,13 +65,16 @@ uint8_t MC25LC256_readByte(uint16_t address){
   /* Start Instruction */
   SELECT_SLAVE;
   
-  /* Send WriteCommand to MC25LC256 */
+  /* Send Read Command to MC25LC256 */
   SPI_writeByte(MC25LC256_READ);
 
   /* Send Address MSB first */
   SPI_writeByte(address_high);
   SPI_writeByte(address_low);
 
+  /* Shift another round to get results*/
+  SPI_writeByte(0);
+  
   /* Finish Instruciton */
   DESELECT_SLAVE;
   
