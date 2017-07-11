@@ -22,19 +22,16 @@ uint8_t MC25LC256_readStatus(void){
   
   /* Send status register read to eeprom */
   SPI_writeByte(MC25LC256_RDSR);
-
-  /* Finish Instruction */
-  DESELECT_SLAVE;
   
   /* Read received status */
   ret = SPI_readByte();
 
   /* shift another round to get results*/
-  SELECT_SLAVE;
   SPI_writeByte(0);
-  DESELECT_SLAVE;
 
   ret = SPI_readByte();
+
+  DESELECT_SLAVE;
   
   return(ret);
 
@@ -56,15 +53,6 @@ uint8_t MC25LC256_readByte(uint16_t address){
   /*Start Instruction */
   SELECT_SLAVE;
   
-  /* Enable Write */
-  SPI_writeByte(MC25LC256_WRDI);
-
-  /*End Instruction */
-  DESELECT_SLAVE;
-
-  /* Start Instruction */
-  SELECT_SLAVE;
-  
   /* Send Read Command to MC25LC256 */
   SPI_writeByte(MC25LC256_READ);
 
@@ -74,12 +62,12 @@ uint8_t MC25LC256_readByte(uint16_t address){
 
   /* Shift another round to get results*/
   SPI_writeByte(0);
-  
-  /* Finish Instruciton */
-  DESELECT_SLAVE;
-  
+   
   /* Read Byte from SPI */
   ret = SPI_readByte();
+
+  /* Finish Instruciton */
+  DESELECT_SLAVE;
   
   return(ret);
 }
